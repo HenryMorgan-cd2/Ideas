@@ -1,0 +1,15 @@
+= form_for @idea do |f|
+  = render 'form_errors', object: f.object
+
+  .field
+    = f.text_field :name, placeholder: true
+  .field
+    = f.text_area :body, placeholder: true
+  .field
+    = f.text_field :tag_list, placeholder: true
+  .field
+    = f.file_field :new_resources
+  .field
+    = f.collection_select :category_id, Category.all, :id, :name, prompt: true
+  .actions
+    = f.submit

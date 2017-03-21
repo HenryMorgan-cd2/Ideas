@@ -1,0 +1,24 @@
+%header#header
+  = link_to 'Ideas', root_path
+  = link_to 'Categories', categories_path
+#page_wrapper
+  #filters
+    .seach_form
+      = form_tag request.path, method: :get do
+        = hidden_field_tag :tag, params[:tag] if params[:tag]
+        .field
+          = search_field_tag :q, nil
+        .actions
+          = submit_tag 'search', name: nil
+
+  - Category.find_each do |category|
+    .ideas_list
+      %h2= category.name.pluralize
+      - category.ideas.each do |idea|
+        .idea{data: {id: idea.id}, style: "background: #{idea.category&.color || '#ccc'}"}
+          %h2= link_to idea.name, idea
+          .flex-spacer
+          .idea_tags
+            - idea.tags.each do |tag|
+              .tag
+                = filter_link :tag, tag.name
